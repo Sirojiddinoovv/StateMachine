@@ -12,4 +12,6 @@ interface LoanService {
     fun reserve(loanExtId: String)
 
     fun cancel(loanExtId: String)
+
+    fun issue(loanExtId: String)
 }

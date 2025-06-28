@@ -26,5 +26,9 @@ class LoanServiceImpl : LoanService {
         log.info("Cancelled funds for loan: {}", loanExtId)
     }
 
+    override fun issue(loanExtId: String) {
+        log.info("Amount issued for loan: {}", loanExtId)
+    }
+
 
 }

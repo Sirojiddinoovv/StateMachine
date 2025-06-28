@@ -15,10 +15,7 @@ import uz.nodir.statemachine.service.business.LoanService
 import uz.nodir.statemachine.service.business.SalaryScoringService
 import uz.nodir.statemachine.service.core.LoanEventListener
 import uz.nodir.statemachine.service.guard.BureauGuard
-import uz.nodir.statemachine.service.handler.CancelAction
-import uz.nodir.statemachine.service.handler.ErrorAction
-import uz.nodir.statemachine.service.handler.ReservedAction
-import uz.nodir.statemachine.service.handler.ScoringAction
+import uz.nodir.statemachine.service.handler.*
 import java.util.*
 
 
@@ -98,5 +95,8 @@ class StateMachineConfig(
 
     @Bean
     fun scoringAction() = ScoringAction(scoringService)
+
+    @Bean
+    fun issueAction() = IssueAction(loanService)
 
 }
