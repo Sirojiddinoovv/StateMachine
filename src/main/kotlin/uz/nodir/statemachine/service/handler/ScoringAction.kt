@@ -27,7 +27,7 @@ class ScoringAction(
 
         val personCode = "person_code"
 
-        val loanExtId = p0?.let { it.message.headers[personCode] as String }
+        val loanExtId = p0?.let { it.extendedState.variables[personCode] as String }
             ?: throw NotFoundException("Not found header: $personCode")
 
         log.info("Scoring passing for $personCode")

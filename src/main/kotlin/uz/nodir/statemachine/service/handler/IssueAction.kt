@@ -25,7 +25,7 @@ class IssueAction(
     }
 
     override fun execute(p0: StateContext<RequestState, LoanEvent>?) {
-        log.info("Handling scoring action for: {}", p0)
+        log.info("Handling issue action for: {}", p0)
 
         val loanParam = "loanExtId"
 
