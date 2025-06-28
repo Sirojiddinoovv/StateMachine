@@ -12,11 +12,13 @@ import uz.nodir.statemachine.model.enums.LoanEvent
 import uz.nodir.statemachine.model.enums.RequestState
 import uz.nodir.statemachine.service.business.CreditBureauAnalyzer
 import uz.nodir.statemachine.service.business.LoanService
+import uz.nodir.statemachine.service.business.SalaryScoringService
 import uz.nodir.statemachine.service.core.LoanEventListener
 import uz.nodir.statemachine.service.guard.BureauGuard
 import uz.nodir.statemachine.service.handler.CancelAction
 import uz.nodir.statemachine.service.handler.ErrorAction
 import uz.nodir.statemachine.service.handler.ReservedAction
+import uz.nodir.statemachine.service.handler.ScoringAction
 import java.util.*
 
 
@@ -30,7 +32,8 @@ import java.util.*
 @Configuration
 class StateMachineConfig(
     private val loanService: LoanService,
-    private val creditBureauAnalyzer: CreditBureauAnalyzer
+    private val creditBureauAnalyzer: CreditBureauAnalyzer,
+    private val scoringService: SalaryScoringService
 ) : EnumStateMachineConfigurerAdapter<RequestState, LoanEvent>() {
 
     override fun configure(states: StateMachineStateConfigurer<RequestState, LoanEvent>?) {
@@ -75,8 +78,6 @@ class StateMachineConfig(
             ?.source(RequestState.ISSUANCE)
             ?.target(RequestState.FINISHED)
             ?.event(LoanEvent.EXIT)
-            ?.action(reservedAction(), errorAction())
-
 
     }
 
@@ -94,5 +95,8 @@ class StateMachineConfig(
 
     @Bean
     fun bureauGuard(): Guard<RequestState, LoanEvent> = BureauGuard(creditBureauAnalyzer)
+
+    @Bean
+    fun scoringAction() = ScoringAction(scoringService)
 
 }
