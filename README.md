@@ -3,19 +3,6 @@
 
 This repository demonstrates a Spring Boot application using Spring State Machine to model a loan processing workflow. Each loan application goes through a series of states, events, actions, and guards to simulate real-world processing steps.
 
-## Table of Contents
-
-- [Features](#features)  
-- [Prerequisites](#prerequisites)  
-- [Getting Started](#getting-started)  
-- [Configuration](#configuration)  
-- [States & Events](#states--events)  
-- [Actions & Guards](#actions--guards)  
-- [Usage](#usage)  
-- [Testing](#testing)  
-- [Contributing](#contributing)  
-- [License](#license)  
-
 ## Features
 
 - Model-driven workflow using Spring State Machine  
@@ -26,11 +13,10 @@ This repository demonstrates a Spring Boot application using Spring State Machin
 
 ## Prerequisites
 
-- Java 17+  
+- Java 21
 - Maven 3.8+ or Gradle 7+  
 - Spring Boot 3.x  
 - Reactor Core (for reactive lifecycle)  
-- PostgreSQL / any JDBC-compatible database (optional)  
 
 ## Getting Started
 
@@ -46,19 +32,6 @@ mvn clean package
 ./gradlew build
 ```
 
-## Configuration
-
-Application properties (`application.yml` or `application.properties`) include:
-
-```yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/yourdb
-    username: user
-    password: pass
-  statemachine:
-    auto-startup: true
-```
 
 ## States & Events
 
@@ -98,13 +71,10 @@ Example response:
 Loan processed by personCode: 1234567890, final state = FINISHED
 ```
 
-## Testing
-
-Unit tests cover individual `Action` and `Guard` classes. Integration tests use the state machine factory to validate the full workflow.
-
-```bash
-mvn test
 ```
+Event CREDIT_ACCOUNT not accepted in state SALARY_SCORING
+```
+
 
 ## Contributing
 
