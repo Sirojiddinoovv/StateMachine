@@ -11,6 +11,7 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.guard.Guard
 import uz.nodir.statemachine.model.enums.LoanEvent
 import uz.nodir.statemachine.model.enums.RequestState
+import uz.nodir.statemachine.service.business.AMLService
 import uz.nodir.statemachine.service.business.CreditBureauAnalyzer
 import uz.nodir.statemachine.service.business.LoanService
 import uz.nodir.statemachine.service.business.SalaryScoringService
@@ -30,6 +31,7 @@ import java.util.*
 @Configuration
 @EnableStateMachineFactory
 class StateMachineConfig(
+    private val amlService: AMLService,
     private val loanService: LoanService,
     private val creditBureauAnalyzer: CreditBureauAnalyzer,
     private val scoringService: SalaryScoringService
@@ -58,7 +60,7 @@ class StateMachineConfig(
             ?.source(RequestState.NEW)
             ?.target(RequestState.CLIENT_CHECK)
             ?.event(LoanEvent.CHECK_LOAN)
-            ?.action(reservedAction(), errorAction())
+            ?.action(checkClient(), errorAction())
             ?.guard(bureauGuard())
             ?.and()
             ?.withExternal()
@@ -80,17 +82,18 @@ class StateMachineConfig(
 
     }
 
+
+    @Bean
+    fun checkClient() = AMLAction(amlService)
+
     @Bean
     fun reservedAction(): Action<RequestState, LoanEvent> = ReservedAction(loanService)
-
 
     @Bean
     fun cancelAction(): Action<RequestState, LoanEvent> = CancelAction(loanService)
 
-
     @Bean
     fun errorAction(): Action<RequestState, LoanEvent> = ErrorAction()
-
 
     @Bean
     fun bureauGuard(): Guard<RequestState, LoanEvent> = BureauGuard(creditBureauAnalyzer)
