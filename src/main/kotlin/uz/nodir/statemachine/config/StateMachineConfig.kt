@@ -1,6 +1,5 @@
 package uz.nodir.statemachine.config
 
-import com.sun.java.swing.action.CancelAction
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.statemachine.action.Action
@@ -11,7 +10,11 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.guard.Guard
 import uz.nodir.statemachine.model.enums.LoanEvent
 import uz.nodir.statemachine.model.enums.RequestState
+import uz.nodir.statemachine.service.business.CreditBureauAnalyzer
+import uz.nodir.statemachine.service.business.LoanService
 import uz.nodir.statemachine.service.core.LoanEventListener
+import uz.nodir.statemachine.service.guard.BureauGuard
+import uz.nodir.statemachine.service.handler.CancelAction
 import uz.nodir.statemachine.service.handler.ErrorAction
 import uz.nodir.statemachine.service.handler.ReservedAction
 import java.util.*
@@ -25,7 +28,10 @@ import java.util.*
  **/
 
 @Configuration
-class StateMachineConfig : EnumStateMachineConfigurerAdapter<RequestState, LoanEvent>() {
+class StateMachineConfig(
+    private val loanService: LoanService,
+    private val creditBureauAnalyzer: CreditBureauAnalyzer
+) : EnumStateMachineConfigurerAdapter<RequestState, LoanEvent>() {
 
     override fun configure(states: StateMachineStateConfigurer<RequestState, LoanEvent>?) {
         states
@@ -51,7 +57,7 @@ class StateMachineConfig : EnumStateMachineConfigurerAdapter<RequestState, LoanE
             ?.target(RequestState.CLIENT_CHECK)
             ?.event(LoanEvent.CHECK_LOAN)
             ?.action(reservedAction(), errorAction())
-            ?.guard(hideGuard())
+            ?.guard(bureauGuard())
             ?.and()
             ?.withExternal()
             ?.source(RequestState.CLIENT_CHECK)
@@ -75,15 +81,11 @@ class StateMachineConfig : EnumStateMachineConfigurerAdapter<RequestState, LoanE
     }
 
     @Bean
-    fun reservedAction(): Action<RequestState, LoanEvent> = ReservedAction()
+    fun reservedAction(): Action<RequestState, LoanEvent> = ReservedAction(loanService)
 
 
     @Bean
-    fun cancelAction(): Action<RequestState, LoanEvent> = CancelAction()
-
-
-    @Bean
-    fun buyAction(): Action<RequestState, LoanEvent> = BuyAction()
+    fun cancelAction(): Action<RequestState, LoanEvent> = CancelAction(loanService)
 
 
     @Bean
@@ -91,6 +93,6 @@ class StateMachineConfig : EnumStateMachineConfigurerAdapter<RequestState, LoanE
 
 
     @Bean
-    fun hideGuard(): Guard<RequestState, LoanEvent> = HideGuard()
+    fun bureauGuard(): Guard<RequestState, LoanEvent> = BureauGuard(creditBureauAnalyzer)
 
 }

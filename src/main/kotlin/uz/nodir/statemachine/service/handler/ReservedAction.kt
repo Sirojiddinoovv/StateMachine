@@ -18,8 +18,8 @@ import uz.nodir.statemachine.service.business.LoanService
  **/
 
 @Component
-class CancelAction(
-    private val loanService: LoanService
+class ReservedAction(
+    private  val loanService: LoanService
 ) : Action<RequestState, LoanEvent> {
 
     companion object {
@@ -27,17 +27,16 @@ class CancelAction(
     }
 
     override fun execute(p0: StateContext<RequestState, LoanEvent>?) {
-        log.info("Handling cancel action for: {}", p0)
+        log.info("Handling reserved action for: {}", p0)
 
         val loanParam = "loanExtId"
 
         val loanExtId = p0?.let { it.message.headers[loanParam] as String }
             ?: throw NotFoundException("Not found header: $loanParam")
 
-
-
         log.info("Reserving funds for loan: {}", loanExtId)
-        loanService.cancel(loanExtId)
+        loanService.reserve(loanExtId)
 
     }
+
 }
