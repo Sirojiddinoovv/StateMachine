@@ -55,30 +55,36 @@ class StateMachineConfig(
     }
 
     override fun configure(transitions: StateMachineTransitionConfigurer<RequestState, LoanEvent>?) {
-        transitions
-            ?.withExternal()
-            ?.source(RequestState.NEW)
-            ?.target(RequestState.CLIENT_CHECK)
-            ?.event(LoanEvent.CHECK_LOAN)
-            ?.action(checkClient(), errorAction())
-            ?.guard(bureauGuard())
-            ?.and()
-            ?.withExternal()
-            ?.source(RequestState.CLIENT_CHECK)
-            ?.target(RequestState.SALARY_SCORING)
-            ?.event(LoanEvent.SCORING_SALARY)
-            ?.action(scoringAction(), errorAction())
-            ?.and()
-            ?.withExternal()
-            ?.source(RequestState.SALARY_SCORING)
-            ?.target(RequestState.ISSUANCE)
-            ?.event(LoanEvent.CREDIT_ACCOUNT)
-            ?.action(issueAction(), cancelAction())
-            ?.and()
-            ?.withExternal()
-            ?.source(RequestState.ISSUANCE)
-            ?.target(RequestState.FINISHED)
-            ?.event(LoanEvent.EXIT)
+        transitions?.run {
+            withExternal()
+                .source(RequestState.NEW)
+                .target(RequestState.CLIENT_CHECK)
+                .event(LoanEvent.CHECK_LOAN)
+                .action(checkClient(), errorAction())
+                .guard(bureauGuard())
+
+                .and()
+                .withExternal()
+                .source(RequestState.CLIENT_CHECK)
+                .target(RequestState.SALARY_SCORING)
+                .event(LoanEvent.SCORING_SALARY)
+                .action(scoringAction(), errorAction())
+
+                .and()
+                .withExternal()
+                .source(RequestState.SALARY_SCORING)
+                .target(RequestState.ISSUANCE)
+                .event(LoanEvent.CREDIT_ACCOUNT)
+                .action(issueAction(), cancelAction())
+
+                .and()
+                .withExternal()
+                .source(RequestState.ISSUANCE)
+                .target(RequestState.FINISHED)
+                .event(LoanEvent.EXIT)
+        } ?: {
+            throw IllegalStateException("Transitions cannot be configured. Cause is empty")
+        }
 
     }
 
