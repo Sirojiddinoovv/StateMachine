@@ -4,7 +4,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.statemachine.StateContext
 import org.springframework.statemachine.action.Action
 import org.springframework.statemachine.support.StateMachineReactiveLifecycle
-import org.springframework.stereotype.Component
 import uz.nodir.statemachine.model.enums.LoanEvent
 import uz.nodir.statemachine.model.enums.RequestState
 
@@ -16,7 +15,6 @@ import uz.nodir.statemachine.model.enums.RequestState
 
  **/
 
-@Component
 class ErrorAction : Action<RequestState, LoanEvent> {
 
     companion object {

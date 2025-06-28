@@ -3,7 +3,6 @@ package uz.nodir.statemachine.service.guard
 import org.slf4j.LoggerFactory
 import org.springframework.statemachine.StateContext
 import org.springframework.statemachine.guard.Guard
-import org.springframework.stereotype.Component
 import uz.nodir.statemachine.model.enums.LoanEvent
 import uz.nodir.statemachine.model.enums.RequestState
 import uz.nodir.statemachine.service.business.CreditBureauAnalyzer
@@ -16,7 +15,6 @@ import uz.nodir.statemachine.service.business.CreditBureauAnalyzer
 
  **/
 
-@Component
 class BureauGuard(
     private val creditBureauAnalyzer: CreditBureauAnalyzer
 ) : Guard<RequestState, LoanEvent> {

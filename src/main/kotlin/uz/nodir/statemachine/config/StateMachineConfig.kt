@@ -3,6 +3,7 @@ package uz.nodir.statemachine.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.statemachine.action.Action
+import org.springframework.statemachine.config.EnableStateMachineFactory
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer
@@ -27,6 +28,7 @@ import java.util.*
  **/
 
 @Configuration
+@EnableStateMachineFactory
 class StateMachineConfig(
     private val loanService: LoanService,
     private val creditBureauAnalyzer: CreditBureauAnalyzer,

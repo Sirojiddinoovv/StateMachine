@@ -3,7 +3,6 @@ package uz.nodir.statemachine.service.handler
 import org.slf4j.LoggerFactory
 import org.springframework.statemachine.StateContext
 import org.springframework.statemachine.action.Action
-import org.springframework.stereotype.Component
 import uz.nodir.statemachine.exception.NotFoundException
 import uz.nodir.statemachine.model.enums.LoanEvent
 import uz.nodir.statemachine.model.enums.RequestState
@@ -17,9 +16,8 @@ import uz.nodir.statemachine.service.business.LoanService
 
  **/
 
-@Component
 class ReservedAction(
-    private  val loanService: LoanService
+    private val loanService: LoanService
 ) : Action<RequestState, LoanEvent> {
 
     companion object {

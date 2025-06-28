@@ -9,7 +9,6 @@ import org.springframework.statemachine.state.State
 import org.springframework.statemachine.transition.Transition
 import uz.nodir.statemachine.model.enums.LoanEvent
 import uz.nodir.statemachine.model.enums.RequestState
-import java.lang.Exception
 
 
 /**
@@ -34,47 +33,53 @@ class LoanEventListener : StateMachineListener<RequestState, LoanEvent> {
         }
     }
 
-    override fun stateEntered(p0: State<RequestState, LoanEvent>?) {
-        TODO("Not yet implemented")
+    override fun stateEntered(state: State<RequestState, LoanEvent>?) {
+        log.debug("Entered state {}", state?.id)
     }
 
-    override fun stateExited(p0: State<RequestState, LoanEvent>?) {
-        TODO("Not yet implemented")
+    override fun stateExited(state: State<RequestState, LoanEvent>?) {
+        log.debug("Exited state {}", state?.id)
     }
 
-    override fun eventNotAccepted(p0: Message<LoanEvent>?) {
-        log.info("Event not accepted: {}", p0)
+    override fun eventNotAccepted(message: Message<LoanEvent>?) {
+        log.warn("Event not accepted: {}", message?.payload)
     }
 
-    override fun transition(p0: Transition<RequestState, LoanEvent>?) {
-        TODO("Not yet implemented")
+    override fun transition(transition: Transition<RequestState, LoanEvent>?) {
+        // no-op
     }
 
-    override fun transitionStarted(p0: Transition<RequestState, LoanEvent>?) {
-        TODO("Not yet implemented")
+    override fun transitionStarted(transition: Transition<RequestState, LoanEvent>?) {
+        log.debug(
+            "Transition started: {} -> {}",
+            transition?.source?.id, transition?.target?.id
+        )
     }
 
-    override fun transitionEnded(p0: Transition<RequestState, LoanEvent>?) {
-        TODO("Not yet implemented")
+    override fun transitionEnded(transition: Transition<RequestState, LoanEvent>?) {
+        log.debug(
+            "Transition ended: {} -> {}",
+            transition?.source?.id, transition?.target?.id
+        )
     }
 
-    override fun stateMachineStarted(p0: StateMachine<RequestState, LoanEvent>?) {
-        log.info("State machine started by: {}", p0)
+    override fun stateMachineStarted(stateMachine: StateMachine<RequestState, LoanEvent>?) {
+        log.info("State machine started")
     }
 
-    override fun stateMachineStopped(p0: StateMachine<RequestState, LoanEvent>?) {
-        TODO("Not yet implemented")
+    override fun stateMachineStopped(stateMachine: StateMachine<RequestState, LoanEvent>?) {
+        log.info("State machine stopped")
     }
 
-    override fun stateMachineError(p0: StateMachine<RequestState, LoanEvent>?, p1: Exception?) {
-        TODO("Not yet implemented")
+    override fun stateMachineError(stateMachine: StateMachine<RequestState, LoanEvent>?, exception: Exception?) {
+        log.error("State machine error", exception)
     }
 
-    override fun extendedStateChanged(p0: Any?, p1: Any?) {
-        TODO("Not yet implemented")
+    override fun extendedStateChanged(key: Any?, value: Any?) {
+        log.debug("Extended state changed: {} = {}", key, value)
     }
 
-    override fun stateContext(p0: StateContext<RequestState, LoanEvent>?) {
-        TODO("Not yet implemented")
+    override fun stateContext(context: StateContext<RequestState, LoanEvent>?) {
+
     }
 }
