@@ -11,7 +11,7 @@ package uz.nodir.statemachine.model.enums
 
 enum class LoanEvent {
     CHECK_LOAN,
-    CHECK_CLIENT,
+    SCORING_SALARY,
     CREDIT_ACCOUNT,
     EXIT
 }

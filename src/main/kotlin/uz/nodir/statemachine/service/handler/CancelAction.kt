@@ -34,7 +34,7 @@ class CancelAction(
 
 
 
-        log.info("Reserving funds for loan: {}", loanExtId)
+        log.info("Cancelling funds for loan: {}", loanExtId)
         loanService.cancel(loanExtId)
 
     }

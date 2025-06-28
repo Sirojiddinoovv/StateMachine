@@ -34,6 +34,6 @@ class AMLAction(
             ?: throw NotFoundException("Not found header: $personCodeParam")
 
         amlService.check(personCode)
-        log.info("Reserving funds for loan: {}", personCode)
+        log.info("AML checked for: {}", personCode)
     }
 }

@@ -2,7 +2,6 @@ package uz.nodir.statemachine.service.web.impl
 
 import org.slf4j.LoggerFactory
 import org.springframework.messaging.support.MessageBuilder
-import org.springframework.statemachine.StateMachine
 import org.springframework.statemachine.StateMachineEventResult
 import org.springframework.statemachine.config.StateMachineFactory
 import org.springframework.statemachine.support.StateMachineReactiveLifecycle
@@ -48,7 +47,7 @@ class LoanProcessServiceImpl(
 
         listOf(
             LoanEvent.CHECK_LOAN,
-            LoanEvent.CHECK_CLIENT,
+            LoanEvent.SCORING_SALARY,
             LoanEvent.CREDIT_ACCOUNT,
             LoanEvent.EXIT
         ).forEach { event ->
