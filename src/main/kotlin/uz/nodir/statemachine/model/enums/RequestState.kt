@@ -11,6 +11,8 @@ package uz.nodir.statemachine.model.enums
 
 enum class RequestState {
     NEW,
-    PENDING,
-    FINISHED
+    CLIENT_CHECK, // client AML detection
+    SALARY_SCORING, // check salary for repayment
+    ISSUANCE, // loan issue
+    FINISHED,
 }

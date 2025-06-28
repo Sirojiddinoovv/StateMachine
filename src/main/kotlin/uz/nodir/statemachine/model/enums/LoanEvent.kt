@@ -10,9 +10,8 @@ package uz.nodir.statemachine.model.enums
 
 
 enum class LoanEvent {
-    LOAN_AVAILABLE, // loan type is available?
-    CLIENT_CHECK, // client AML detection
-    SALARY_SCORING, // check salary for repayment
-    OPEN_APPLICATION, // open application in ABS
-    ISSUANCE, // loan issue
+    CHECK_LOAN,
+    CHECK_CLIENT,
+    CREDIT_ACCOUNT,
+    EXIT
 }
