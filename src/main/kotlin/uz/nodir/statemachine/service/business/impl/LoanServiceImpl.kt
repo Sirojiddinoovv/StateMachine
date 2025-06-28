@@ -2,7 +2,9 @@ package uz.nodir.statemachine.service.business.impl
 
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import uz.nodir.statemachine.exception.LoanException
 import uz.nodir.statemachine.service.business.LoanService
+import kotlin.random.Random
 
 
 /**
@@ -27,7 +29,15 @@ class LoanServiceImpl : LoanService {
     }
 
     override fun issue(loanExtId: String) {
-        log.info("Amount issued for loan: {}", loanExtId)
+        val randomNumber = Random.nextInt(1, 100)
+
+        if (randomNumber % 2 == 0)
+            log.info("Amount issued for loan: {}", loanExtId)
+        else {
+            val message = "Loan can't issue for $loanExtId"
+            log.error(message)
+            throw LoanException(message)
+        }
     }
 
 
